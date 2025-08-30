@@ -28,11 +28,17 @@ const TaskItem = observer(({ task }: Props) => {
           </button>
         )}
 
-        <span>{task.title}</span>
+        <input
+          type="checkbox"
+          checked={task.completed}
+          onChange={() => taskStore.toggleTask(task.id)}
+        />
 
-        <button onClick={() => setShowInput(!showInput)}>
-          + Подзадача
-        </button>
+        <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
+          {task.title}
+        </span>
+
+        <button onClick={() => setShowInput(!showInput)}>+ Подзадача</button>
       </div>
 
       {showInput && (
@@ -58,4 +64,3 @@ const TaskItem = observer(({ task }: Props) => {
 });
 
 export default TaskItem;
-

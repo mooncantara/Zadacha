@@ -7,8 +7,8 @@ export default function AddTask() {
   const onAdd = () => {
     const trimmed = title.trim();
     if (!trimmed) return;
-    taskStore.addTask(null, trimmed); // добавляем в корень
-    setTitle(""); // очистка поля
+    taskStore.addTask(null, trimmed); 
+    setTitle("");
   };
 
   return (
@@ -22,4 +22,3 @@ export default function AddTask() {
     </div>
   );
 }
-
