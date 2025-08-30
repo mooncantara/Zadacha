@@ -45,6 +45,14 @@ private findTaskByID(id:string, tasks: Task[]): Task | null {
     return null;
 }
 
+toggleExpand(id: string) {
+  const task = this.findTaskByID(id, this.tasks);
+  if (task) {
+    task.expanded = !task.expanded;
+  }
+}
+
+
 }
 
 export const taskStore = new TaskStore();
