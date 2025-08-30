@@ -34,5 +34,17 @@ export class TaskStore{
         }
     }
 }
+private findTaskByID(id:string, tasks: Task[]): Task | null {
+    for(const task of tasks){
+        if(task.id === id) {
+            return task;
+        }
+        const found = this.findTaskByID(id, task.children);
+        if(found) return found;
+    }
+    return null;
+}
 
 }
+
+export const taskStore = new TaskStore();
