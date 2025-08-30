@@ -28,7 +28,7 @@ export class TaskStore{
         this.tasks.push(newTask);
     } 
     else {
-        const parent = this.findTaskById(parentId, this.tasks);
+        const parent = this.findTaskByID(parentId, this.tasks);
         if(parent) {
             parent.children.push(newTask);
         }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Task, taskStore } from "../store/TaskStore";
+import { taskStore } from "../store/TaskStore";
+import type { Task } from "../store/TaskStore";
 
 interface Props {
   task: Task;
