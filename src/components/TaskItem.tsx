@@ -22,7 +22,14 @@ const TaskItem = observer(({ task }: Props) => {
   return (
     <li>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        {task.children.length > 0 && (
+          <button onClick={() => taskStore.toggleExpand(task.id)}>
+            {task.expanded ? "▼" : "▶"}
+          </button>
+        )}
+
         <span>{task.title}</span>
+
         <button onClick={() => setShowInput(!showInput)}>
           + Подзадача
         </button>
@@ -39,7 +46,7 @@ const TaskItem = observer(({ task }: Props) => {
         </div>
       )}
 
-      {task.children.length > 0 && (
+      {task.expanded && task.children.length > 0 && (
         <ul style={{ marginLeft: 20 }}>
           {task.children.map((child) => (
             <TaskItem key={child.id} task={child} />
@@ -51,3 +58,4 @@ const TaskItem = observer(({ task }: Props) => {
 });
 
 export default TaskItem;
+
