@@ -2,14 +2,14 @@ import { observer } from "mobx-react-lite";
 import { taskStore } from "../store/TaskStore";
 import TaskItem from "./TaskItem";
 
-const TaskList = observer(function TaskList() {
-  return (
-    <ul style={{ paddingLeft: 16 }}>
-      {taskStore.tasks.map((t) => (
+const TaskList = observer(() => (
+  <ul>
+    {taskStore.tasks
+      .filter((t) => taskStore.isTaskVisible(t))
+      .map((t) => (
         <TaskItem key={t.id} task={t} />
       ))}
-    </ul>
-  );
-});
+  </ul>
+));
 
 export default TaskList;

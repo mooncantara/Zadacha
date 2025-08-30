@@ -7,7 +7,7 @@ export default function AddTask() {
   const onAdd = () => {
     const trimmed = title.trim();
     if (!trimmed) return;
-    taskStore.addTask(null, trimmed); 
+    taskStore.addTask(null, trimmed);
     setTitle("");
   };
 

@@ -1,13 +1,34 @@
 import AddTask from "./components/AddTask";
 import TaskList from "./components/TaskList";
+import SearchBar from "./components/SearchBar";
+import DetailPanel from "./components/DetailPanel";
+import ThemeToggle from "./components/ThemeToggle";
+import { observer } from "mobx-react-lite";
+import { taskStore } from "./store/TaskStore";
 
-export default function App() {
+const App = observer(() => {
   return (
-    <div style={{ maxWidth: 600, margin: "24px auto", display: "grid", gap: 16 }}>
-      <h1>Задачи</h1>
-      <AddTask />
-      <TaskList />
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: 16,
+        padding: 16,
+        background: taskStore.theme === "light" ? "white" : "#222",
+        color: taskStore.theme === "light" ? "black" : "white",
+        height: "100vh",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <h1>Задачи</h1>
+        <ThemeToggle />
+        <SearchBar />
+        <AddTask />
+        <TaskList />
+      </div>
+      <DetailPanel />
     </div>
   );
-}
+});
 
+export default App;

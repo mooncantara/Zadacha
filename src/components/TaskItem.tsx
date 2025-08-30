@@ -8,14 +8,16 @@ interface Props {
 }
 
 const TaskItem = observer(({ task }: Props) => {
-  const [newSubtask, setNewSubtask] = useState("");
+  const [subtask, setSubtask] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [titleDraft, setTitleDraft] = useState(task.title);
 
   const addSubtask = () => {
-    const trimmed = newSubtask.trim();
+    const trimmed = subtask.trim();
     if (!trimmed) return;
     taskStore.addTask(task.id, trimmed);
-    setNewSubtask("");
+    setSubtask("");
     setShowInput(false);
   };
 
@@ -34,19 +36,41 @@ const TaskItem = observer(({ task }: Props) => {
           onChange={() => taskStore.toggleTask(task.id)}
         />
 
-        <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
-          {task.title}
-        </span>
+        {editing ? (
+          <input
+            value={titleDraft}
+            onChange={(e) => setTitleDraft(e.target.value)}
+            onBlur={() => {
+              taskStore.updateTitle(task.id, titleDraft);
+              setEditing(false);
+            }}
+            autoFocus
+          />
+        ) : (
+          <span
+            style={{
+              textDecoration: task.completed ? "line-through" : "none",
+              cursor: "pointer",
+            }}
+            onClick={() => taskStore.setSelected(task.id)}
+            onDoubleClick={() => setEditing(true)}
+          >
+            {task.title}
+          </span>
+        )}
 
         <button onClick={() => setShowInput(!showInput)}>+ Подзадача</button>
+        <button onClick={() => setEditing(true)}>✏️</button>
+        <button onClick={() => taskStore.deleteTask(task.id)}>🗑</button>
       </div>
 
       {showInput && (
         <div style={{ marginLeft: 16, marginTop: 4 }}>
           <input
-            value={newSubtask}
-            onChange={(e) => setNewSubtask(e.target.value)}
+            value={subtask}
+            onChange={(e) => setSubtask(e.target.value)}
             placeholder="Название подзадачи"
+            onKeyDown={(e) => e.key === "Enter" && addSubtask()}
           />
           <button onClick={addSubtask}>Добавить</button>
         </div>
@@ -54,8 +78,8 @@ const TaskItem = observer(({ task }: Props) => {
 
       {task.expanded && task.children.length > 0 && (
         <ul style={{ marginLeft: 20 }}>
-          {task.children.map((child) => (
-            <TaskItem key={child.id} task={child} />
+          {task.children.map((ch) => (
+            <TaskItem key={ch.id} task={ch} />
           ))}
         </ul>
       )}
